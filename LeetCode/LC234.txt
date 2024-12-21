@@ -1,0 +1,38 @@
+LeetCode - 234 Palindrome Linked List
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+bool isPalindrome(struct ListNode* head) {
+    if (head == NULL || head->next == NULL) return true;
+
+    struct ListNode* temp = head;
+    struct ListNode* stack = NULL;
+
+    
+    while (temp != NULL) {
+        struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+        newNode->val = temp->val;
+        newNode->next = stack;
+        stack = newNode;
+        temp = temp->next;
+    }
+
+    
+    temp = head;
+    while (temp != NULL) {
+        if (temp->val != stack->val) {
+            return false;
+        }
+        struct ListNode* tempNode = stack;
+        stack = stack->next;
+        free(tempNode);
+        temp = temp->next;
+    }
+
+    return true;
+}
